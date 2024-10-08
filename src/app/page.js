@@ -1,101 +1,89 @@
-import Image from "next/image";
+"use client";
+import FileUpload from "@/components/FileUpload";
+import Footer from "@/components/Footer";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import { useAuth, UserButton } from "@clerk/nextjs";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { ArrowRight, LogIn } from "lucide-react";
+import Link from "next/link";
+import toast from "react-hot-toast";
+
+const fetchLastChat = async () => {
+  try {
+    const response = await axios.get("/api/get-lastchat");
+    return response.data;
+  } catch (error) {
+    console.error("Error in fetchLastChat", error);
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch last chat"
+    );
+  }
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const { isSignedIn, isLoaded } = useAuth();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const { data: lastChat } = useQuery({
+    queryKey: ["lastChat"],
+    queryFn: fetchLastChat,
+    enabled: isLoaded && isSignedIn, // only fetch when user is signed in and loaded
+    onError: () => toast.error("Failed to load last chat"),
+  });
+
+  return (
+    <>
+      <div className="w-full min-h-screen bg-gradient-to-r from-blue-200 to-cyan-200 flex justify-center items-center dark:bg-gradient-to-r dark:from-slate-950 dark:to-slate-950">
+        <div className="p-4 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl text-center">
+          <div className="flex flex-col items-center">
+            <div className="flex flex-row items-center justify-center">
+              <h1 className="mr-3 text-2xl text-black dark:text-slate-100 sm:text-4xl md:text-5xl font-semibold">
+                Chat with your PDF
+              </h1>
+              {isSignedIn && <UserButton afterSwitchSessionUrl="/" />}
+            </div>
+            <div className="flex mt-3 justify-center">
+              {isSignedIn && lastChat?.length > 0 ? (
+                <Link href={`/chat/${lastChat[0].id}`} aria-label="Go to Chats">
+                  <HoverBorderGradient
+                    containerClassName="rounded-full"
+                    className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2"
+                  >
+                    <span>Go to Chats</span>
+                    <ArrowRight className="ml-2" />
+                  </HoverBorderGradient>
+                </Link>
+              ) : null}
+            </div>
+            <p className="max-w-lg mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-200">
+              Unlock the power of your PDFs with iPDF, an AI-driven platform
+              that lets you interact with your documents effortlessly. Get
+              insights and answers from your PDFs like never before.
+            </p>
+            <div className="w-full mt-4">
+              {isSignedIn ? (
+                <FileUpload />
+              ) : (
+                <Link
+                  href="/sign-in"
+                  role="button"
+                  className="flex justify-center items-center"
+                  aria-label="Sign In"
+                >
+                  <HoverBorderGradient
+                    containerClassName="rounded-xl"
+                    as="button"
+                    className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2 cursor-pointer"
+                  >
+                    Login to get start! <LogIn className="w-4 h-4 ml-2" />
+                  </HoverBorderGradient>
+                </Link>
+              )}
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+      <Footer />
+    </>
   );
 }
