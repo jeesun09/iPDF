@@ -12,17 +12,16 @@ export async function DELETE(req) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
   try {
-    const body = await req.json();
-    console.log("Deleting chat:", body); //Todo Delete this line
-    const { chatId, fileKey } = body;
-    // Ensure that both chatId and fileKey are present
+    const { chatId, fileKey } = await req.json();
+
+    // NOTE: Ensure that both chatId and fileKey are present
     if (!chatId || !fileKey) {
       return NextResponse.json(
         { message: "Missing chatId or fileKey" },
         { status: 400 }
       );
     }
-    console.log("Deleting chat:", chatId, fileKey); //Todo Delete this line
+
     const s3 = new S3Client({
       region: "ap-south-1",
       credentials: {
@@ -34,14 +33,14 @@ export async function DELETE(req) {
       Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME,
       Key: fileKey,
     };
-    // Delete file from S3
+    // INFO: Delete file from S3
     const deleteCommand = new DeleteObjectCommand(params);
     await s3.send(deleteCommand);
 
-    // Delete chat from database
+    // INFO: Delete chat from database
     await db.delete(chats).where(eq(chats.id, chatId));
 
-    // Delete pinecone namespace
+    // INFO: Delete pinecone namespace
     const client = await getPineconeClient();
     const pineconeIndex = client.index("insight-pdf");
     const namespace = pineconeIndex.namespace(convertToASCII(fileKey));

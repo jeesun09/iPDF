@@ -17,7 +17,7 @@ export const getPineconeClient = async () => {
   return pinecone;
 };
 
-export async function loadS3IntoPinecone(file_key) {
+export async function  loadS3IntoPinecone(file_key) {
   const file_name = await downloadFromS3(file_key);
   if (!file_name) {
     throw new Error("Could not download file from S3");
@@ -36,7 +36,6 @@ export async function loadS3IntoPinecone(file_key) {
     const pineconeIndex = client.index("insight-pdf");
     const namespace = pineconeIndex.namespace(convertToASCII(file_key));
     await namespace.upsert(vectors);
-    fs.unlinkSync(file_name);
     return documents[0];
   } catch (error) {
     console.error("Error loading S3 into Pinecone:", error);

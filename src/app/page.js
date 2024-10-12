@@ -27,7 +27,7 @@ export default function Home() {
   const { data: lastChat } = useQuery({
     queryKey: ["lastChat"],
     queryFn: fetchLastChat,
-    enabled: isLoaded && isSignedIn, // only fetch when user is signed in and loaded
+    enabled: isLoaded && isSignedIn, //NOTE: only fetch when user is signed in and loaded
     onError: () => toast.error("Failed to load last chat"),
   });
 
