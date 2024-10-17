@@ -17,7 +17,7 @@ const Chat = ({ params: { chatId } }) => {
   if (!isSignedIn) {
     router.push("/sign-in");
   }
-  // Fetch chats from the server
+  //INFO: Fetch chats from the server
   const {
     data: chats = [],
     isLoading,
@@ -31,15 +31,15 @@ const Chat = ({ params: { chatId } }) => {
   });
   const queryClient = useQueryClient();
 
-  // Delete the mutation from the cache
+  //INFO: Delete the mutation from the cache
   const deleteChatMutation = useMutation({
     mutationFn: async ({ chatId, fileKey }) => {
       await axios.delete("/api/delete-chat", { data: { chatId, fileKey } });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["chats"]); // Invalidate the cache to refetch the chats
+      queryClient.invalidateQueries(["chats"]); //NOTE: Invalidate the cache to refetch the chats
       toast.success("Chat deleted successfully");
-      router.push("/"); // Redirect to the home page
+      router.push("/"); //NOTE: Redirect to the home page
     },
     onError: (error) => {
       console.error("Error deleting chat:", error);

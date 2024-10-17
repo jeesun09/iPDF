@@ -16,14 +16,18 @@ const openai = createOpenAI({
 export async function POST(req) {
   try {
     const { messages, chatId } = await req.json();
+
+    //INFO: Get the chat record from the database and check if it exists
     const _chats = await db.select().from(chats).where(eq(chats.id, chatId));
     if (_chats.length !== 1) {
       return NextResponse.json({ message: "Chat not found" }, { status: 404 });
     }
-    const fileKey = _chats[0].fileKey;
-    const lastMessage = messages[messages.length - 1];
-    const context = await getContext(lastMessage.content, fileKey);
 
+    const fileKey = _chats[0].fileKey; //NOTE: Get the file key from the chat record
+    const lastMessage = messages[messages.length - 1];
+    const context = await getContext(lastMessage.content, fileKey); //NOTE: Get the context from the chat file
+
+    //INFO: Create a prompt for the AI assistant to generate a response
     const prompt = {
       role: "system",
       content: `AI assistant is a brand new, powerful, human-like artificial intelligence.
@@ -40,11 +44,15 @@ export async function POST(req) {
       AI assistant will not apologize for previous responses, but instead will indicated new information was gained.
       AI assistant will not invent anything that is not drawn directly from the context.`,
     };
+
+    //INFO: Insert the user's message into the database
     await db.insert(_messages).values({
       chatId,
       content: lastMessage.content,
       role: "user",
     });
+
+    //INFO: Stream the conversation with the AI assistant and insert the response into the database
     const result = await streamText({
       model: openai("gpt-4o-mini"),
       messages: [
@@ -60,8 +68,8 @@ export async function POST(req) {
       },
     });
 
-    return result.toDataStreamResponse();
+    return result.toDataStreamResponse(); //NOTE: Return the response from the AI assistant
   } catch (error) {
-    return NextResponse.json({error: "Error creating chat"}, {status: 500});
+    return NextResponse.json({ error: "Error creating chat" }, { status: 500 });
   }
 }

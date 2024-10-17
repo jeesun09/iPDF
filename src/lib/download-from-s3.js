@@ -1,4 +1,4 @@
-//Download file from S3
+//INFO: Download file from S3
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import path from "path";
 import fs from "fs";
@@ -31,8 +31,6 @@ export async function downloadFromS3(file_key) {
       writeStream.on("finish", resolve);
       writeStream.on("error", reject);
     });
-    console.log(`File downloaded and saved at ${file_name}`);
-    
     return file_name;
   } catch (error) {
     console.error("Error downloading file from S3:", error.message);

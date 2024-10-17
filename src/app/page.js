@@ -22,12 +22,12 @@ const fetchLastChat = async () => {
 };
 
 export default function Home() {
-  const { isSignedIn, isLoaded } = useAuth();
+  const { isSignedIn } = useAuth();
 
   const { data: lastChat } = useQuery({
     queryKey: ["lastChat"],
     queryFn: fetchLastChat,
-    enabled: isLoaded && isSignedIn, //NOTE: only fetch when user is signed in and loaded
+    enabled: isSignedIn, //NOTE: only fetch when user is signed in and loaded
     onError: () => toast.error("Failed to load last chat"),
   });
 
@@ -40,7 +40,9 @@ export default function Home() {
               <h1 className="mr-3 text-2xl text-black dark:text-slate-100 sm:text-4xl md:text-5xl font-semibold">
                 Chat with your PDF
               </h1>
-              {isSignedIn && <UserButton afterSwitchSessionUrl="/" />}
+              {isSignedIn && (
+                <UserButton afterSwitchSessionUrl="/" />
+              )}
             </div>
             <div className="flex mt-3 justify-center">
               {isSignedIn && lastChat?.length > 0 ? (

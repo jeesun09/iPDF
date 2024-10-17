@@ -14,7 +14,7 @@ export async function DELETE(req) {
   try {
     const { chatId, fileKey } = await req.json();
 
-    // NOTE: Ensure that both chatId and fileKey are present
+    //INFO: Check if chatId and fileKey are present in the request
     if (!chatId || !fileKey) {
       return NextResponse.json(
         { message: "Missing chatId or fileKey" },
@@ -33,14 +33,14 @@ export async function DELETE(req) {
       Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME,
       Key: fileKey,
     };
-    // INFO: Delete file from S3
+    //INFO: Delete file from S3
     const deleteCommand = new DeleteObjectCommand(params);
     await s3.send(deleteCommand);
 
-    // INFO: Delete chat from database
+    //INFO: Delete chat from database
     await db.delete(chats).where(eq(chats.id, chatId));
 
-    // INFO: Delete pinecone namespace
+    //INFO: Delete pinecone namespace
     const client = await getPineconeClient();
     const pineconeIndex = client.index("insight-pdf");
     const namespace = pineconeIndex.namespace(convertToASCII(fileKey));

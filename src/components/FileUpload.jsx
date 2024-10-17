@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import toast from "react-hot-toast";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_FILE_SIZE = 5 * 1024 * 1024; //NOTE: 5MB
 
 const FileUpload = () => {
   const router = useRouter();
@@ -27,7 +27,7 @@ const FileUpload = () => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: { "application/pdf": [".pdf"] },
     maxFiles: 1,
-    disabled: uploading, // disable dropzone when uploading
+    disabled: uploading, //NOTE: disable dropzone when uploading
     onDrop: async (acceptedFiles) => {
       const file = acceptedFiles[0];
       if (file.size > MAX_FILE_SIZE) {

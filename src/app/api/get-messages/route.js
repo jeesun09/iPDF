@@ -5,6 +5,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   const { chatId } = await req.json();
+
+  //INFO: Get all messages for the chat from the database
   const _messages = await db
     .select()
     .from(messages)

@@ -17,7 +17,7 @@ export const getPineconeClient = async () => {
   return pinecone;
 };
 
-export async function  loadS3IntoPinecone(file_key) {
+export async function loadS3IntoPinecone(file_key) {
   const file_name = await downloadFromS3(file_key);
   if (!file_name) {
     throw new Error("Could not download file from S3");

@@ -11,6 +11,8 @@ export async function GET(req) {
     if (!userId) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
+
+    //INFO: Get the last chat for the user from the database
     const lastChat = await db
       .select()
       .from(chats)
@@ -18,6 +20,7 @@ export async function GET(req) {
       .orderBy(desc(chats.createdAt))
       .limit(1);
 
+    //INFO: Check if the chat exists
     if (lastChat.length === 0) {
       return NextResponse.json({ message: "No chat found" }, { status: 404 });
     }

@@ -7,15 +7,17 @@ import { NextResponse } from "next/server";
 
 export async function GET(req) {
   try {
-    const { userId } = auth();
+    const { userId } = auth(); //INFO: Get the user ID from the request
     if (!userId) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
+
+    //INFO: Get all chats for the user from the database
     const _chats = await db
       .select()
       .from(chats)
       .where(eq(chats.userId, userId));
-    return NextResponse.json(_chats);
+    return NextResponse.json(_chats); //INFO: Return the chats as JSON
   } catch (error) {
     console.log("Error in get-chats route", error);
     return NextResponse.json(

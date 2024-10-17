@@ -11,8 +11,7 @@ export async function POST(req) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
   try {
-    // Parse the request body
-    const body = await req.json();
+    const body = await req.json(); //NOTE: Parse the request body
     const { file_key, file_name } = body;
     if (!file_key || !file_name) {
       return NextResponse.json(
@@ -21,10 +20,9 @@ export async function POST(req) {
       );
     }
 
-    // Process file into Pinecone
-    await loadS3IntoPinecone(file_key);
+    await loadS3IntoPinecone(file_key); //NOTE: Load the file into Pinecone
 
-    // Insert the chat record into the database
+    //INFO: Insert the chat record into the database and return the chat_id to the client
     const chat_id = await db
       .insert(chats)
       .values({
@@ -37,13 +35,13 @@ export async function POST(req) {
         insertedId: chats.id,
       });
 
-    // Return the newly created chat
+    //INFO: Return the newly created chat
     return NextResponse.json(
       { chat_id: chat_id[0].insertedId },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error creating chat:", error); // Log the error for easier debugging
+    console.error("Error creating chat:", error); //NOTE: Log the error
     return NextResponse.json(
       { message: error.message || "An error occurred while creating the chat" },
       { status: 500 }
