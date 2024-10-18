@@ -1,11 +1,11 @@
-import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react";
+import { ArrowLeft, Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 const page = () => {
   return (
     <>
-      <main className="p-5 w-full min-h-screen">
+      <main className="p-5 w-full min-h-screen absolute">
         <h1 className="text-3xl font-bold mb-4 text-center">About Us</h1>
         <p className="mb-4">
           Welcome to iPDF, where the power of AI meets the world of digital
@@ -98,6 +98,10 @@ const page = () => {
             <Instagram className="w-8 h-8" />
           </Link>
         </div>
+
+        <Link href='/' className="absolute top-4 left-5 bg-slate-400 p-2 border rounded-md">
+          <ArrowLeft className="w-8 h-8"/>
+        </Link>
       </main>
     </>
   );

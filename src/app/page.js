@@ -5,9 +5,10 @@ import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { useAuth, UserButton } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { ArrowRight, LogIn } from "lucide-react";
+import { ArrowRight, Loader2, LogIn } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 const fetchLastChat = async () => {
   try {
@@ -23,6 +24,7 @@ const fetchLastChat = async () => {
 
 export default function Home() {
   const { isSignedIn } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const { data: lastChat } = useQuery({
     queryKey: ["lastChat"],
@@ -33,16 +35,14 @@ export default function Home() {
 
   return (
     <>
-      <div className="w-full min-h-screen bg-gradient-to-r from-blue-200 to-cyan-200 flex justify-center items-center dark:bg-gradient-to-r dark:from-slate-950 dark:to-slate-950">
+      <div className="w-full min-h-screen flex justify-center items-center bg-gradient-to-r from-blue-200 to-cyan-200 dark:bg-gradient-to-r dark:from-slate-950 dark:to-slate-950">
         <div className="p-4 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl text-center">
           <div className="flex flex-col items-center">
             <div className="flex flex-row items-center justify-center">
               <h1 className="mr-3 text-2xl text-black dark:text-slate-100 sm:text-4xl md:text-5xl font-semibold">
                 Chat with your PDF
               </h1>
-              {isSignedIn && (
-                <UserButton afterSwitchSessionUrl="/" />
-              )}
+              {isSignedIn && <UserButton afterSwitchSessionUrl="/" />}
             </div>
             <div className="flex mt-3 justify-center">
               {isSignedIn && lastChat?.length > 0 ? (
@@ -50,9 +50,15 @@ export default function Home() {
                   <HoverBorderGradient
                     containerClassName="rounded-full"
                     className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2"
+                    as="button"
+                    onClick={() => setLoading(!loading)}
                   >
                     <span>Go to Chats</span>
-                    <ArrowRight className="ml-2" />
+                    {loading ? (
+                      <Loader2 className="animate-spin w-4 h-4" />
+                    ) : (
+                      <ArrowRight className="ml-2" />
+                    )}
                   </HoverBorderGradient>
                 </Link>
               ) : null}
@@ -76,8 +82,14 @@ export default function Home() {
                     containerClassName="rounded-xl"
                     as="button"
                     className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2 cursor-pointer"
+                    onClick={() => setLoading(!loading)}
                   >
-                    Login to get start! <LogIn className="w-4 h-4 ml-2" />
+                    Login to get start!{" "}
+                    {loading ? (
+                      <Loader2 className="animate-spin w-4 h-4" />
+                    ) : (
+                      <LogIn className="w-4 h-4 ml-2" />
+                    )}
                   </HoverBorderGradient>
                 </Link>
               )}
