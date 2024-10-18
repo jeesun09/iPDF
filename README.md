@@ -20,8 +20,9 @@ Live: https://ipdf-jeesun.vercel.app/
 iPDF is built using a modern technology to ensure performance, and ease of use.
 
 - **Next.js**: A React-based framework used for building the user interface and handling server-side rendering.
-- **TypeScript**: Ensures type safety and enhances the development experience with static typing.
+**JavaScript**: The primary programming language used for both client-side and server-side logic, ensuring a seamless and interactive user experience.
 - **Tailwind CSS & Shadcn**: Utility-first CSS frameworks for building custom designs directly in the HTML, providing a consistent and responsive UI.
+- **TanStack Query**: A powerful data-fetching library for React applications, ensuring efficient and optimized data management.
 - **Next.js API Routes**: Used for handling backend logic and API requests within the Next.js framework.
 - **OpenAI API & Vercel AI SDK**: Integration with OpenAI's powerful language models to provide intelligent chatbot responses.
 - **Langchain**: Facilitates the chaining of language model responses to provide contextual and accurate results.
