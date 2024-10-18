@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# iPDF: Unlock the Power of Your PDFs with AI-Driven Insights.
+Live: https://ipdf-jeesun.vercel.app/
 
-## Getting Started
+**iPDF** is a cutting-edge SaaS platform that redefines PDF document interaction. By harnessing the power of artificial intelligence, it offers a streamlined process for uploading, analyzing, and engaging with PDF content. The platform's AI-driven chatbot provides real-time, intelligent answers to user queries about PDF content, delivering valuable insights.
 
-First, run the development server:
+![iPDF Home Page](./public/images/home.png)
+![iPDF Logged In Page](./public/images/loggedin.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **PDF Upload**: Users can upload PDF documents to the platform.
+- **AI Chatbot**: Interact with PDF content through a natural language interface. The AI chatbot answers questions about the PDF's contents using advanced natural language processing (NLP) and vector embeddings to ensure precise and relevant responses.
+- **Real-Time Interaction**: Engage with your documents like never before with real-time responses from the AI chatbot.
+- **Responsive Design**: The platform is designed with Tailwind CSS, ensuring a responsive and user-friendly interface across devices.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+![iPDF Chat Page](./public/images/chats.png)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Technologies Used
 
-## Learn More
+iPDF is built using a modern technology to ensure performance, and ease of use.
 
-To learn more about Next.js, take a look at the following resources:
+- **Next.js**: A React-based framework used for building the user interface and handling server-side rendering.
+- **TypeScript**: Ensures type safety and enhances the development experience with static typing.
+- **Tailwind CSS & Shadcn**: Utility-first CSS frameworks for building custom designs directly in the HTML, providing a consistent and responsive UI.
+- **Next.js API Routes**: Used for handling backend logic and API requests within the Next.js framework.
+- **OpenAI API & Vercel AI SDK**: Integration with OpenAI's powerful language models to provide intelligent chatbot responses.
+- **Langchain**: Facilitates the chaining of language model responses to provide contextual and accurate results.
+- **Pinecone**: Handles vector embedding and similarity search for efficient document querying.
+- **AWS S3**: Used for secure and scalable storage of uploaded PDFs.
+- **Neon DB & Drizzle ORM**: A modern PostgreSQL database with Drizzle ORM for structured and efficient data management.
+- **Clerk Authentication**: User authentication, including sign-up and sign-in, is securely managed by Clerk.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. **Sign Up**: Create an account and log in.
+2. **Upload a PDF**: Navigate to the upload section and choose a PDF file to upload.
+3. **Ask Questions**: Once the PDF is processed, use the AI chatbot to ask questions about the document's content.
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
