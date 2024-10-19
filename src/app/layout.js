@@ -21,9 +21,7 @@ export const metadata = {
   title: "iPDF - AI-Driven PDF Interaction",
   description:
     "Unlock the power of your PDFs with iPDF - an AI-driven platform that lets you interact with your documents effortlessly. Get insights and answers from your PDFs like never before.",
-  authors: [
-    {name: "Jeesun Bari", url: 'https://www.jeesunbari.online/'}
-  ],
+  authors: [{ name: "Jeesun Bari", url: "https://www.jeesunbari.online/" }],
   openGraph: {
     title: "iPDF - AI-Driven PDF Interaction",
     description:
@@ -33,8 +31,8 @@ export const metadata = {
     images: [
       {
         url: "/images/favicon.svg",
-        width: 800,
-        height: 600,
+        width: 1200,
+        height: 630,
         alt: "iPDF - AI-Driven PDF Interaction",
       },
     ],
@@ -50,8 +48,8 @@ export const metadata = {
       {
         url: "/images/favicon.svg",
         alt: "iPDF - AI-Driven PDF Interaction",
-        width: 800,
-        height: 600,
+        width: 1200,
+        height: 630,
       },
     ],
   },
