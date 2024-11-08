@@ -21,7 +21,7 @@ export const chats = pgTable("chats", {
 export const messages = pgTable("messages", {
   id: serial("id").primaryKey(),
   chatId: integer("chat_id")
-    .references(() => chats.id, { onDelete: "cascade" }) // foreign key reference to chats table with cascade delete on delete
+    .references(() => chats.id, { onDelete: "cascade" }) //INFO: foreign key reference to chats table with cascade delete on delete
     .notNull(),
   content: text("content").notNull(),
   role: userSystemEnum("role").notNull(),

@@ -59,8 +59,35 @@
 @layer base {
   * {
     @apply border-border;
+    @apply scroll-smooth;
   }
   body {
     @apply bg-background text-foreground;
   }
 }
+@layer base {
+@layer base {
+  /* Scrollbar styles for Webkit browsers (Chrome, Safari) */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--background); /* Use a fallback color */
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--primary); /* Use a fallback color */
+    border-radius: 10px;
+    border: 3px solid var(--background);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary-hover); /* Slightly darker shade on hover */
+  }
+
+  /* Scrollbar styles for Firefox */
+  * {
+    scrollbar-width: thin; /* Makes the scrollbar narrower */
+    scrollbar-color: var(--primary) var(--background); /* Thumb and track colors */
+  }
+}
+}
+
